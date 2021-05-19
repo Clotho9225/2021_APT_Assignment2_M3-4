@@ -29,7 +29,8 @@ bool isValidPlaceTile(std::string input, Player *player)
     // check the length of the input string
     if ((input.size() != 14 && input.size() != 15) ||
         input.compare(0, 6, "place ") != 0 ||
-        input.compare(8, 4, " at ") != 0)
+        input.compare(8, 4, " at ") != 0 ||
+        input.compare(0, 4, "help") != 0)
     {
         if (input.compare(0, 7, "replace") == 0)
         {
@@ -43,6 +44,12 @@ bool isValidPlaceTile(std::string input, Player *player)
         {
             std::cout << std::endl;
             std::cout << "Invalid input format for placing a tile." << std::endl;
+            std::cout << std::endl;
+            std::cout << "Please try:" << std::endl;
+            std::cout << std::endl;
+            std::cout << "--- place <tile colour><tile shape> at";
+            std::cout << " <Row (should be uppercase uppercase letter, A to Z)>";
+            std::cout << "<Column (should be number, 0 to 25)>" << std::endl;
             return false;
         }
         
@@ -90,7 +97,8 @@ bool isValidReplace(std::string input, Player *player)
 {
 
     // check the length of the input string
-    if ((input.size() != 10 && input.size() != 11) || (input.compare(0, 8, "replace ") != 0))
+    if ((input.size() != 10 && input.size() != 11) || 
+        (input.compare(0, 8, "replace ") != 0))
     {
         if ((input.compare(0, 5, "place") == 0))
         {
@@ -100,10 +108,18 @@ bool isValidReplace(std::string input, Player *player)
         {
             return false;
         }
+        else if (input.compare(0, 4, "help") == 0)
+        {
+            return false;
+        }
         else
         {
             std::cout << std::endl;
             std::cout << "Invalid input format for replacing a tile." << std::endl;
+            std::cout << std::endl;
+            std::cout << "Please try:" << std::endl;
+            std::cout << std::endl;
+            std::cout << "--- replace <tile colour><tile shape>";
             return false;
         }
     }
@@ -127,6 +143,17 @@ bool isValidSave(std::string input)
     if (input.compare(0, 5, "save ") == 0)
     {
         return true;
+    }
+    else if (input.compare(0, 5, "seve ") == 0 
+            || input.compare(0, 5, "sava ") == 0)
+    {
+        std::cout << std::endl;
+        std::cout << "You may want to save the game" << std::endl;
+        std::cout << std::endl;
+        std::cout << "Please try:" << std::endl;
+        std::cout << std::endl;
+        std::cout << "--- save <file name>";
+        return false;
     }
     else
     {
@@ -162,6 +189,20 @@ bool isQuit(std::string input)
     }
 }
 
+// if the input is help
+bool isHelp(std::string input)
+{
+    // check the structure of the instruction
+    if (input.compare(0, 4, "help") == 0 || input.compare(0, 4, "Help") == 0)
+    {
+        return true;
+    }
+    else
+    {
+        return false;
+    }
+}
+
 // check the input is which instruction
 // invalid, return 0
 // place the tile, return 1
@@ -182,6 +223,10 @@ int checkInstruction(std::string input, Player *player)
         std::cout << std::endl;
         std::cout << "Goodbye" << std::endl;
         exit(0);
+    }
+    else if (isHelp(input))
+    {
+        return CMD_HELP;
     }
     else if (isValidReplace(input, player))
     {

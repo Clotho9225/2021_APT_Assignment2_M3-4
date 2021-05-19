@@ -37,4 +37,6 @@ void game(Player *currentPlayer, Player *player1, Player *player2,
             Player *player3, Board *board, LinkedList *tileBag, 
           std::string instructure, int inputCount);
 
+// print help information
+void helpInfo();
 #endif

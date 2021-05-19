@@ -23,11 +23,15 @@ void newGame()
             std::cout << "Goodbye" << std::endl;
             exit(0);
         }
+        else if (isHelp(player1_name))
+        {
+            helpInfo();
+        }
         else if (!isValidPlayerName(player1_name))
         {
             std::cout << "Invalid name, please try again." << std::endl;
         }
-    } while (!isValidPlayerName(player1_name));
+    } while (!isValidPlayerName(player1_name) || isHelp(player1_name));
     
        
     std::cout << "Enter a name for player 2(uppercase characters only)" << std::endl;
@@ -40,11 +44,15 @@ void newGame()
             std::cout << "Goodbye" << std::endl;
             exit(0);
         }
+        else if (isHelp(player2_name))
+        {
+            helpInfo();
+        }
         else if (!isValidPlayerName(player2_name))
         {
             std::cout << "Invalid name, please try again." << std::endl;
         }
-    } while (!isValidPlayerName(player2_name));
+    } while (!isValidPlayerName(player2_name) || isHelp(player2_name));
     
      std::cout << "Enter a name for player 3(uppercase characters only)" << std::endl;
     do
@@ -56,11 +64,15 @@ void newGame()
             std::cout << "Goodbye" << std::endl;
             exit(0);
         }
+        else if (isHelp(player3_name))
+        {
+            helpInfo();
+        }
         else if (!isValidPlayerName(player3_name))
         {
             std::cout << "Invalid name, please try again." << std::endl;
         }
-    } while (!isValidPlayerName(player2_name));
+    } while (!isValidPlayerName(player3_name) || isHelp(player3_name));
 
     // initialise players
     Player *player1 = new Player(player1_name);
@@ -446,7 +458,34 @@ void game(Player *currentPlayer, Player *player1, Player *player2,
                         player1, player2, player3, tileBag, board);
             // continue gaming
         }
+        else if (toDo == 5)
+        {
+            helpInfo();
+            healperBool = false;
+        }
+        
     } while (!healperBool);
 
     
+}
+
+
+void helpInfo()
+{   
+    std::cout << std::endl;
+    std::cout << "Welcome to the qwirkle game." << std::endl;
+    std::cout << std::endl;
+    std::cout << "Try command below:" << std::endl;
+    std::cout << std::endl;
+    std::cout << "--- place <tile colour><tile shape> at <Row><Column>";
+    std::cout << " to place a tile on the board." << std::endl;
+    std::cout << "    Row should be uppercase letter A to Z." << std::endl;
+    std::cout << "    Column should be number 0 to 25." << std::endl;
+    std::cout << std::endl;
+    std::cout << "--- replace <tile colour><tile shape>";
+    std::cout << " to replace a tile in your hand." << std::endl;
+    std::cout << std::endl;
+    std::cout << "--- save <file name>";
+    std::cout << " to save current game progress." << std::endl;
+    std::cout << "Your command: " << std::endl;
 }

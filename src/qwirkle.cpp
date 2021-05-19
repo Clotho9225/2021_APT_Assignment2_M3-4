@@ -72,6 +72,11 @@ int main(void)
 			exit(0);
 			checkMenu = true;
 		}
+		else if (selection == "help" || selection == "Help")
+		{
+			helpInfo();
+			checkMenu = true;
+		}
 		else
 		{
 			std::cout << std::endl;

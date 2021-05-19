@@ -9,6 +9,7 @@
 #define CMD_REPLACE 2
 #define CMD_SAVE 3
 #define CMD_QUIT 4
+#define CMD_HELP 5
 
 // if the input is place the tile, return true
 bool isValidPlaceTile(std::string input, Player *player);
@@ -21,6 +22,9 @@ bool isValidSave(std::string input);
 
 // if the input is Quit
 bool isQuit(std::string input);
+
+// if the input is help
+bool isHelp(std::string input);
 
 // check player's Name, should be capital
 bool isValidPlayerName(std::string playerName);
