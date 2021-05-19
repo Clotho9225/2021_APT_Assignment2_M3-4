@@ -18,5 +18,6 @@
 #define EMPTY_TILE_BAG_ROUND_NUM 5
 #define ASCII_A 65
 #define ASCII_0 48
+#define TOTAL_LINE_IN_SAVE_FILE 13
 
 #endif // COSC_ASSIGN_TWO_TYPES

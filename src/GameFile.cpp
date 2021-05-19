@@ -75,8 +75,6 @@ void GameFile::saveGame(std::string savePath, Player *currentPlayer,
 	file << player3->getScore() << std::endl;
 	tiles = player3->getTilesString();
 
-	std::cout << "tiles size" << tiles.size() << std::endl;
-
 	for (unsigned int count = 0; count < tiles.size(); count++)
 	{
 		if (count % 2 == 1 && count <= tiles.size() - 3)
@@ -185,7 +183,7 @@ bool GameFile::loadGame(std::string loadPath)
 	std::string name2 = "";
 	std::string name3 = "";
 	// read line by line and set the value
-	while (getline(inStream, s) && count < 10)
+	while (getline(inStream, s) && count < TOTAL_LINE_IN_SAVE_FILE)
 	{
 		if (count == 0)
 		{
@@ -321,11 +319,11 @@ bool GameFile::loadGame(std::string loadPath)
 		}
 		else if (count == 10)
 		{
-
 			vector<std::string> placeedInstruction = split(s, ',', ' ');
 			vector<std::string> samePosChek;
 			std::string tmpTileString = "";
 			std::string posString = "";
+
 			if (placeedInstruction.size() == 0)
 			{
 				count++;
@@ -404,7 +402,7 @@ bool GameFile::loadGame(std::string loadPath)
 			}
 		}
 	}
-
+	
 	if (totalTiles == TOTAL_TILES_NUM)
 	{
 		return true;
@@ -638,6 +636,10 @@ void GameFile::loadGameInfo(std::string loadPath, Player **currentPlayer,
 			else if (s.compare(player2->getName()) == 0)
 			{
 				*currentPlayer = player2;
+			}
+			else if (s.compare(player3->getName()) == 0)
+			{
+				*currentPlayer = player3;
 			}
 		}
 	}

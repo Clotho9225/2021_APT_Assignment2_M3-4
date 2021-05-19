@@ -1,7 +1,6 @@
 #ifndef ASSIGN2_GAME_FILE_H
 #define ASSIGN2_GAME_FILE_H
 
-#include "Player.h"
 #include "Board.h"
 #include "check_input.h"
 #include <iostream>
