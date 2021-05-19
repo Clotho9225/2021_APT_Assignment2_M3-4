@@ -25,7 +25,7 @@ void newGame()
         }
         else if (isHelp(player1_name))
         {
-            helpInfo();
+            helpInfo_enteringName();
         }
         else if (!isValidPlayerName(player1_name))
         {
@@ -46,7 +46,7 @@ void newGame()
         }
         else if (isHelp(player2_name))
         {
-            helpInfo();
+            helpInfo_enteringName();
         }
         else if (!isValidPlayerName(player2_name))
         {
@@ -66,7 +66,7 @@ void newGame()
         }
         else if (isHelp(player3_name))
         {
-            helpInfo();
+            helpInfo_enteringName();
         }
         else if (!isValidPlayerName(player3_name))
         {
@@ -473,9 +473,10 @@ void game(Player *currentPlayer, Player *player1, Player *player2,
 void helpInfo()
 {   
     std::cout << std::endl;
+    std::cout << "-----------------------------" << std::endl;
     std::cout << "Welcome to the qwirkle game." << std::endl;
     std::cout << std::endl;
-    std::cout << "Try command below:" << std::endl;
+    std::cout << "Try commands below:" << std::endl;
     std::cout << std::endl;
     std::cout << "--- place <tile colour><tile shape> at <Row><Column>";
     std::cout << " to place a tile on the board." << std::endl;
@@ -487,5 +488,49 @@ void helpInfo()
     std::cout << std::endl;
     std::cout << "--- save <file name>";
     std::cout << " to save current game progress." << std::endl;
+    std::cout << std::endl;
+    std::cout << "--- ctrl + D";
+    std::cout << " to quit the game." << std::endl;
+    std::cout << std::endl;
     std::cout << "Your command: " << std::endl;
+}
+
+void helpInfo_mainMenu()
+{   
+    std::cout << std::endl;
+    std::cout << "-----------------------------" << std::endl;
+    std::cout << "Welcome to the qwirkle game." << std::endl;
+    std::cout << std::endl;
+    std::cout << "Try commands below:" << std::endl;
+    std::cout << std::endl;
+    std::cout << "--- 1";
+    std::cout << " to start a new game" << std::endl;
+    std::cout << std::endl;
+    std::cout << "--- 2";
+    std::cout << " to load a game from a exist and valid file." << std::endl;
+    std::cout << std::endl;
+    std::cout << "--- 3";
+    std::cout << " to show students' information." << std::endl;
+    std::cout << std::endl;
+    std::cout << "--- 4 or Ctrl + D";
+    std::cout << " to quit the game." << std::endl;
+    std::cout << std::endl;
+    std::cout << "Your command: " << std::endl;
+}
+
+void helpInfo_enteringName()
+{   
+    std::cout << std::endl;
+    std::cout << "-----------------------------" << std::endl;
+    std::cout << "Welcome to the qwirkle game." << std::endl;
+    std::cout << std::endl;
+    std::cout << "Please enter your name:" << std::endl;
+    std::cout << std::endl;
+    std::cout << "    The name should be uppercase letters." << std::endl;
+    std::cout << "    For example 'DAVID'." << std::endl;
+    std::cout << std::endl;
+    std::cout << "or you can enter ctrl + D";
+    std::cout << " to quit the game." << std::endl;
+    std::cout << std::endl;
+    std::cout << "Your name: " << std::endl;
 }

@@ -39,4 +39,6 @@ void game(Player *currentPlayer, Player *player1, Player *player2,
 
 // print help information
 void helpInfo();
+void helpInfo_mainMenu();
+void helpInfo_enteringName();
 #endif

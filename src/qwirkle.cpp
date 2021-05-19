@@ -74,7 +74,7 @@ int main(void)
 		}
 		else if (selection == "help" || selection == "Help")
 		{
-			helpInfo();
+			helpInfo_mainMenu();
 			checkMenu = true;
 		}
 		else
