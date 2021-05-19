@@ -28,7 +28,8 @@ void GameFile::getSelectionFromMenu()
 
 // Save Game data to file
 void GameFile::saveGame(std::string savePath, Player *currentPlayer,
-	Player *player1, Player *player2, LinkedList *tileBag, Board *board)
+	Player *player1, Player *player2, Player *player3, 
+	LinkedList *tileBag, Board *board)
 {
 	bool flag = false;
 	std::ofstream file(savePath, std::ios_base::out);
@@ -39,7 +40,7 @@ void GameFile::saveGame(std::string savePath, Player *currentPlayer,
 	std::string tiles = player1->getTilesString();
 	for (unsigned int count = 0; count < tiles.size(); count++)
 	{
-		if (count % 2 == 1 && count < 11)
+		if (count % 2 == 1 && count <= tiles.size() - 3)
 		{
 			file << tiles[count];
 			file << ",";
@@ -57,7 +58,28 @@ void GameFile::saveGame(std::string savePath, Player *currentPlayer,
 	tiles = player2->getTilesString();
 	for (unsigned int count = 0; count < tiles.size(); count++)
 	{
-		if (count % 2 == 1 && count < 11)
+		if (count % 2 == 1 && count <= tiles.size() - 3)
+		{
+			file << tiles[count];
+			file << ",";
+		}
+		else
+		{
+			file << tiles[count];
+		}
+	}
+	file << std::endl;
+
+		// Save Player 3
+	file << player3->getName() << std::endl;
+	file << player3->getScore() << std::endl;
+	tiles = player3->getTilesString();
+
+	std::cout << "tiles size" << tiles.size() << std::endl;
+
+	for (unsigned int count = 0; count < tiles.size(); count++)
+	{
+		if (count % 2 == 1 && count <= tiles.size() - 3)
 		{
 			file << tiles[count];
 			file << ",";
@@ -79,8 +101,10 @@ void GameFile::saveGame(std::string savePath, Player *currentPlayer,
 	int counter = 0;
 	int tilesA = player1->getTilesInHand()->getSize();
 	int tilesB = player2->getTilesInHand()->getSize();
+	int tilesC = player3->getTilesInHand()->getSize();
 	int tilesInBag = tileBag->getSize();
-	int tilesOnBoardNum = TOTAL_TILES_NUM - tilesInBag - tilesA - tilesB;
+	int tilesOnBoardNum = TOTAL_TILES_NUM - tilesInBag
+							 - tilesA - tilesB - tilesC;
 	for (unsigned int row = 0; row < board->position.size(); row++)
 	{
 		for (unsigned int col = 0;
@@ -145,6 +169,7 @@ bool GameFile::loadGame(std::string loadPath)
 	int boardTileCount = 0;
 	int p1count = 0;
 	int p2count = 0;
+	int p3count = 0;
 
 	int totalTiles = 0;
 	std::ifstream inStream(loadPath, std::ios_base::in);
@@ -158,6 +183,7 @@ bool GameFile::loadGame(std::string loadPath)
 
 	std::string name1 = "";
 	std::string name2 = "";
+	std::string name3 = "";
 	// read line by line and set the value
 	while (getline(inStream, s) && count < 10)
 	{
@@ -243,6 +269,46 @@ bool GameFile::loadGame(std::string loadPath)
 		}
 		else if (count == 6)
 		{
+			if (!isValidPlayerName(s))
+			{
+				return false;
+			}
+			else
+			{
+				name3 += s;
+				count++;
+			}
+		}
+		else if (count == 7)
+		{
+			if (!allNum(s))
+			{
+				return false;
+			}
+			else
+			{
+				count++;
+			}
+		}
+		else if (count == 8)
+		{
+			vector<std::string> vecTiles = split(s, ',');
+			for (unsigned int index = 0; index < vecTiles.size(); index++)
+			{
+				if (!validTile(vecTiles[index]))
+				{
+					return false;
+				}
+				else
+				{
+					p3count++;
+					totalTiles++;
+				}
+			}
+			count++;
+		}
+		else if (count == 9)
+		{
 			vector<std::string> size = split(s, ',');
 			if (size[0].compare("26") == 0 && size[1].compare("26") == 0)
 			{
@@ -253,7 +319,7 @@ bool GameFile::loadGame(std::string loadPath)
 				return false;
 			}
 		}
-		else if (count == 7)
+		else if (count == 10)
 		{
 
 			vector<std::string> placeedInstruction = split(s, ',', ' ');
@@ -310,7 +376,7 @@ bool GameFile::loadGame(std::string loadPath)
 				count++;
 			}
 		}
-		else if (count == 8)
+		else if (count == 11)
 		{
 			vector<std::string> tileBag = split(s, ',');
 
@@ -329,9 +395,10 @@ bool GameFile::loadGame(std::string loadPath)
 
 			count++;
 		}
-		else if (count == 9)
+		else if (count == 12)
 		{
-			if (s.compare(name1) != 0 && s.compare(name2) != 0)
+			if (s.compare(name1) != 0 && s.compare(name2) != 0 
+							&& s.compare(name3) != 0)
 			{
 				return false;
 			}
@@ -348,8 +415,9 @@ bool GameFile::loadGame(std::string loadPath)
 	}
 }
 
-void GameFile::loadGameInfo(std::string loadPath, Player **currentPlayer,
-		Player *player1, Player *player2, LinkedList *tileBag, Board *board)
+void GameFile::loadGameInfo(std::string loadPath, Player **currentPlayer, 
+		Player *player1, Player *player2, Player *player3, 
+			LinkedList *tileBag, Board *board)
 {
 	std::ifstream inStream(loadPath, std::ios_base::in);
 	if (!inStream.is_open())
@@ -449,9 +517,50 @@ void GameFile::loadGameInfo(std::string loadPath, Player **currentPlayer,
 		}
 		else if (count == 6)
 		{
+			player3->setName(s);
 			count++;
 		}
 		else if (count == 7)
+		{
+			int score;
+			std::stringstream ss;
+			ss << s;
+			ss >> score;
+			player3->setScore(score);
+			count++;
+		}
+		else if (count == 8)
+		{
+			LinkedList *tiles = new LinkedList();
+			vector<std::string> vecTiles = split(s, ',');
+
+			for (unsigned int index = 0; index < vecTiles.size(); index++)
+			{
+				Node *tmpNode = new Node();
+				Tile *tmpTile = new Tile();
+				Colour colour = vecTiles[index][0];
+				Shape shape = vecTiles[index][1] - '0';
+				tmpTile->colour = colour;
+				tmpTile->shape = shape;
+				tmpNode->tile = tmpTile;
+				if (index == 0)
+				{
+					tiles->setHead(tmpNode);
+				}
+				else
+				{
+					tiles->addNodeToEnd(tmpNode);
+				}
+			}
+			player3->setTilesInHand(tiles);
+
+			count++;
+		}
+		else if (count == 9)
+		{
+			count++;
+		}
+		else if (count == 10)
 		{
 			vector<std::string> placeedInstruction = split(s, ',', ' ');
 			if (placeedInstruction.size() == 0)
@@ -495,7 +604,7 @@ void GameFile::loadGameInfo(std::string loadPath, Player **currentPlayer,
 				count++;
 			}
 		}
-		else if (count == 8)
+		else if (count == 11)
 		{
 			vector<std::string> tilesInBag = split(s, ',');
 			for (unsigned int index = 0; index < tilesInBag.size(); index++)
@@ -520,7 +629,7 @@ void GameFile::loadGameInfo(std::string loadPath, Player **currentPlayer,
 			}
 			count++;
 		}
-		else if (count == 9)
+		else if (count == 12)
 		{
 			if (s.compare(player1->getName()) == 0)
 			{

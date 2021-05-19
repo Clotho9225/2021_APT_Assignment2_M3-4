@@ -9,7 +9,7 @@ void qwirkle()
 
 void newGame()
 {
-    std::string player1_name, player2_name;
+    std::string player1_name, player2_name, player3_name;
     std::cout << "Starting a New Game" << std::endl << std::endl;
 
     std::cout << "Enter a name for player 1(uppercase characters only)" << std::endl;
@@ -45,10 +45,27 @@ void newGame()
             std::cout << "Invalid name, please try again." << std::endl;
         }
     } while (!isValidPlayerName(player2_name));
+    
+     std::cout << "Enter a name for player 3(uppercase characters only)" << std::endl;
+    do
+    {
+        std::getline(std::cin, player3_name);
+        if (std::cin.eof())
+        {
+            std::cout << std::endl;
+            std::cout << "Goodbye" << std::endl;
+            exit(0);
+        }
+        else if (!isValidPlayerName(player3_name))
+        {
+            std::cout << "Invalid name, please try again." << std::endl;
+        }
+    } while (!isValidPlayerName(player2_name));
 
     // initialise players
     Player *player1 = new Player(player1_name);
     Player *player2 = new Player(player2_name);
+    Player *player3 = new Player(player3_name);
     // initialise board
     Board *board = new Board();
 
@@ -61,6 +78,7 @@ void newGame()
     // initialise tiles in players' hands
     player1->initialiseTilesInHand(tileBag);
     player2->initialiseTilesInHand(tileBag);
+    player3->initialiseTilesInHand(tileBag);
 
     std::cout << std::endl;
     std::cout << "Let's Play!" << std::endl;
@@ -69,7 +87,8 @@ void newGame()
     std::string instructure;
     Player *currentPlayer = new Player();
     while (tileBag->getSize() > 0 && (player1->getTilesInHand()->getSize() > 0
-        || player2->getTilesInHand()->getSize() > 0) && !std::cin.eof())
+        || player2->getTilesInHand()->getSize() > 0 
+        || player3->getTilesInHand()->getSize() > 0)  && !std::cin.eof())
     {
         int inputCount = 0;
         if (tileBag->getSize() > 0)
@@ -77,7 +96,7 @@ void newGame()
             if (playerFlag == 1)
             {
                 currentPlayer = player1;
-                game(currentPlayer, player1, player2, board, tileBag,
+                game(currentPlayer, player1, player2, player3, board, tileBag,
                      instructure, inputCount);
 
                 inputCount = 1;
@@ -86,7 +105,14 @@ void newGame()
             if (playerFlag == 2)
             {
                 currentPlayer = player2;
-                game(currentPlayer, player1, player2, board, tileBag,
+                game(currentPlayer, player1, player2, player3, board, tileBag,
+                     instructure, inputCount);
+                playerFlag = 3;
+            }
+            if (playerFlag == 3)
+            {
+                currentPlayer = player3;
+                game(currentPlayer, player1, player2, player3, board, tileBag,
                      instructure, inputCount);
                 playerFlag = 1;
             }
@@ -99,7 +125,7 @@ void newGame()
                 {
                     currentPlayer = player1;
 
-                    game(currentPlayer, player1, player2, board, tileBag,
+                    game(currentPlayer, player1, player2, player3, board, tileBag,
                          instructure, inputCount);
                     playerFlag = 2;
                 }
@@ -107,7 +133,15 @@ void newGame()
                 {
                     currentPlayer = player2;
 
-                    game(currentPlayer, player1, player2, board, tileBag,
+                    game(currentPlayer, player1, player2, player3, board, tileBag,
+                         instructure, inputCount);
+                    playerFlag = 3;
+                }
+                if (playerFlag == 3)
+                {
+                    currentPlayer = player3;
+
+                    game(currentPlayer, player1, player2, player3, board, tileBag,
                          instructure, inputCount);
                     playerFlag = 1;
                 }
@@ -115,20 +149,24 @@ void newGame()
         }
     }
 
-    checkEnd(tileBag, player1, player2);
+    checkEnd(tileBag, player1, player2, player3);
 }
 
 void continueGame(Player **currentPlayer, Player *player1, 
-        Player *player2, LinkedList *tileBag, Board *board)
+    Player *player2, Player *player3, LinkedList *tileBag, Board *board)
 {
     int playerFlag = 0;
     if ((*currentPlayer)->getName().compare(player1->getName()) == 0)
     {
         playerFlag = 1;
     }
-    else
+    else if ((*currentPlayer)->getName().compare(player2->getName()) == 0)
     {
         playerFlag = 2;
+    }
+    
+    {
+        playerFlag = 3;
     }
 
     std::string instructure;
@@ -142,8 +180,8 @@ void continueGame(Player **currentPlayer, Player *player1,
             if (playerFlag == 1)
             {
                 *currentPlayer = player1;
-                game(*currentPlayer, player1, player2, board, tileBag,
-                     instructure, inputCount);
+                game(*currentPlayer, player1, player2, player3,
+                            board, tileBag, instructure, inputCount);
 
                 inputCount = 1;
                 playerFlag = 2;
@@ -151,8 +189,15 @@ void continueGame(Player **currentPlayer, Player *player1,
             if (playerFlag == 2)
             {
                 *currentPlayer = player2;
-                game(*currentPlayer, player1, player2, board, tileBag,
-                     instructure, inputCount);
+                game(*currentPlayer, player1, player2, player3,
+                            board, tileBag, instructure, inputCount);
+                playerFlag = 3;
+            }
+            if (playerFlag == 3)
+            {
+                *currentPlayer = player3;
+                game(*currentPlayer, player1, player2, player3,
+                            board, tileBag, instructure, inputCount);
                 playerFlag = 1;
             }
         }
@@ -164,71 +209,76 @@ void continueGame(Player **currentPlayer, Player *player1,
                 {
                     *currentPlayer = player1;
 
-                    game(*currentPlayer, player1, player2, board, tileBag,
-                         instructure, inputCount);
+                    game(*currentPlayer, player1, player2, player3,
+                            board, tileBag, instructure, inputCount);
                     playerFlag = 2;
                 }
                 if (playerFlag == 2)
                 {
                     *currentPlayer = player2;
 
-                    game(*currentPlayer, player1, player2, board, tileBag,
-                         instructure, inputCount);
+                    game(*currentPlayer, player1, player2, player3,
+                            board, tileBag, instructure, inputCount);
+                    playerFlag = 3;
+                }
+                if (playerFlag == 3)
+                {
+                    *currentPlayer = player2;
+
+                    game(*currentPlayer, player1, player2, player3,
+                            board, tileBag, instructure, inputCount);
                     playerFlag = 1;
                 }
             }
         }
     }
 
-    checkEnd(tileBag, player1, player2);
+    checkEnd(tileBag, player1, player2, player3);
 }
 
 void credits()
 {
     std::cout << "---------------------------------- " << std::endl;
+    std::cout << std::endl;
     // print group members' information
     std::cout << "Name: Yi Yang" << std::endl;
     std::cout << "Student ID: s3798354" << std::endl;
     std::cout << "Email: s3798354@student.rmit.edu.au" << std::endl;
     std::cout << std::endl;
-
-    std::cout << "Name: Jinghua Gu" << std::endl;
-    std::cout << "Student ID: s3653714" << std::endl;
-    std::cout << "Email: s3653714@student.rmit.edu.au" << std::endl;
-    std::cout << std::endl;
-
-    std::cout << "Name: Yixin Chen" << std::endl;
-    std::cout << "Student ID: s3855866" << std::endl;
-    std::cout << "Email: s3855866@student.rmit.edu.au" << std::endl;
-    std::cout << std::endl;
-
-    std::cout << "Name: Sifan Gao" << std::endl;
-    std::cout << "Student ID: s3753605" << std::endl;
-    std::cout << "Email: s3753605@student.rmit.edu.au" << std::endl;
-
     std::cout << "---------------------------------- " << std::endl;
 }
 
-void checkEnd(LinkedList *tileBag, Player *player1, Player *player2)
+void checkEnd(LinkedList *tileBag, Player *player1, 
+                Player *player2, Player *player3)
 {
     int tilesInBag = tileBag->getSize();
     int p1Tiles = player1->getTilesInHand()->getSize();
     int p2Tiles = player2->getTilesInHand()->getSize();
-    if (tilesInBag == 0 && p1Tiles == 0 && p2Tiles == 0)
+    int p3Tiles = player3->getTilesInHand()->getSize();
+    if (tilesInBag == 0 && p1Tiles == 0 && p2Tiles == 0 && p3Tiles == 0)
     {
         std::cout << "Game over" << std::endl;
         std::cout << "Score for " << player1->getName() << ": ";
         std::cout << player1->getScore() << std::endl;
         std::cout << "Score for " << player2->getName() << ": ";
         std::cout << player2->getScore() << std::endl;
-        if (player1->getScore() > player2->getScore())
+        std::cout << "Score for " << player3->getName() << ": ";
+        std::cout << player3->getScore() << std::endl;
+        if (player1->getScore() > player2->getScore()
+            && player1->getScore() > player3->getScore())
         {
             std::cout << "Player " << player1->getName() << "won!";
             std::cout << std::endl;
         }
-        else
+        else if (player2->getScore() > player1->getScore()
+            && player2->getScore() > player3->getScore())
         {
             std::cout << "Player " << player2->getName() << "won!";
+            std::cout << std::endl;
+        }
+        else
+        {
+            std::cout << "Player " << player3->getName() << "won!";
             std::cout << std::endl;
         }
         std::cout << std::endl;
@@ -237,13 +287,16 @@ void checkEnd(LinkedList *tileBag, Player *player1, Player *player2)
     }
 }
 
-void scores(Player *player1, Player *player2)
+void scores(Player *player1, Player *player2, Player *player3)
 {
     std::cout << "Score for " << player1->getName() << ": ";
     std::cout << player1->getScore() << std::endl;
 
     std::cout << "Score for " << player2->getName() << ": ";
     std::cout << player2->getScore() << std::endl;
+
+    std::cout << "Score for " << player3->getName() << ": ";
+    std::cout << player3->getScore() << std::endl;
 }
 
 
@@ -323,7 +376,8 @@ void placeTile(Player *currentPlayer, Board *board,
 }
 
 void game(Player *currentPlayer, Player *player1, Player *player2, 
-    Board *board, LinkedList *tileBag, std::string instructure, int inputCount)
+    Player *player3, Board *board, LinkedList *tileBag, 
+            std::string instructure, int inputCount)
 {
     // turn
     std::cout << std::endl;
@@ -331,7 +385,7 @@ void game(Player *currentPlayer, Player *player1, Player *player2,
     std::cout << ", it's your turn" << std::endl;
 
     // print
-    scores(player1, player2);
+    scores(player1, player2, player3);
     board->printBoard();
     std::cout << "Your hand is" << std::endl;
     currentPlayer->printTilesInHand();
@@ -389,7 +443,7 @@ void game(Player *currentPlayer, Player *player1, Player *player2,
                                                     instructure.size() - 5);
             GameFile *file = new GameFile();
             file->saveGame(fileName, currentPlayer,
-                        player1, player2, tileBag, board);
+                        player1, player2, player3, tileBag, board);
             // continue gaming
         }
     } while (!healperBool);

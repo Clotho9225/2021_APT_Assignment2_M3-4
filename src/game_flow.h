@@ -12,10 +12,10 @@ void newGame();
 
 // continue game from loaded game
 void continueGame(Player **currentPlayer, Player *player1, 
-    Player *player2, LinkedList *tileBag, Board *board);
+    Player *player2, Player *player3, LinkedList *tileBag, Board *board);
 
 // display score
-void scores(Player *player1, Player *player2);
+void scores(Player *player1, Player *player2, Player *player3);
 
 // after checking the instruction, check if it's able to place the tile
 bool checkRule(Player *currentPlayer, Board *board,
@@ -29,11 +29,12 @@ void placeTile(Player *currentPlayer, Board *board,
 void credits();
 
 // check winner
-void checkEnd(LinkedList *tileBag, Player *player1, Player *player2);
+void checkEnd(LinkedList *tileBag, Player *player1, 
+            Player *player2, Player *player3);
 
 // game round
 void game(Player *currentPlayer, Player *player1, Player *player2,
-          Board *board, LinkedList *tileBag, 
+            Player *player3, Board *board, LinkedList *tileBag, 
           std::string instructure, int inputCount);
 
 #endif

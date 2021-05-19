@@ -47,13 +47,15 @@ int main(void)
 			std::cout << std::endl;
 			std::cout << "Qwirkle game successfully loaded" << std::endl;
 			Player *tempPlayer = new Player(), *player1 = new Player(),
-					*player2 = new Player(), **currentPlayer = &tempPlayer;
+					*player2 = new Player(), *player3 = new Player(),
+					**currentPlayer = &tempPlayer;
 			LinkedList *tileBag = new LinkedList();
 			Board *board = new Board();
 			file->loadGameInfo(fileName, currentPlayer, player1,
-								player2, tileBag, board);
+								player2, player3, tileBag, board);
 
-			continueGame(currentPlayer, player1, player2, tileBag, board);
+			continueGame(currentPlayer, player1, player2, player3, 
+								tileBag, board);
 			
 			checkMenu = true;
 		}
