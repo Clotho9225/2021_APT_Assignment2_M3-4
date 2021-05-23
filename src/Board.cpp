@@ -141,7 +141,6 @@ void Board::printBoard()
                     printf("\033[35m%c%d", colour, shape);
                     std::cout << "\033[0m";	
                 }
-                //std::cout << shape;
                 std::cout << "|";
             }
         }

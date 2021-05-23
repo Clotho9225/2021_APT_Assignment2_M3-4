@@ -176,20 +176,46 @@ void Player::printTilesInHand()
 		Tile *currentTile = currentNode->getTile();
 		Colour tempColour = currentTile->colour;
 		Shape tempShape = currentTile->shape;
-		tiles += tempColour + std::to_string(tempShape);
-	}
-	// print
-	for (unsigned int counter = 0; counter < tiles.size(); counter++)
-	{
-		if (counter % 2 == 1 && counter < tiles.size() - 1)
+
+		if (tempColour == 'R')
 		{
-			std::cout << tiles[counter];
-			
-			std::cout << ",";
+			//std::cout << colour;
+			printf("\033[31m%c%d", tempColour, tempShape);
+			std::cout << "\033[0m";	
 		}
-		else
+		else if (tempColour == 'O')
 		{
-			std::cout << tiles[counter];
+			//std::cout << colour;
+			printf("\033[91m%c%d", tempColour, tempShape);
+			std::cout << "\033[0m";	
+		}
+		else if (tempColour == 'Y')
+		{
+			//std::cout << colour;
+			printf("\033[33m%c%d", tempColour, tempShape);
+			std::cout << "\033[0m";	
+		}
+		else if (tempColour == 'G')
+		{
+			//std::cout << colour;
+			printf("\033[32m%c%d", tempColour, tempShape);
+			std::cout << "\033[0m";	
+		}
+		else if (tempColour == 'B')
+		{
+			//std::cout << colour;
+			printf("\033[34m%c%d", tempColour, tempShape);
+			std::cout << "\033[0m";	
+		}
+		else if (tempColour == 'P')
+		{
+			//std::cout << colour;
+			printf("\033[35m%c%d", tempColour, tempShape);
+			std::cout << "\033[0m";	
+		}
+		if (counter < this->tilesInHand->getSize())
+		{
+			std::cout << ",";
 		}
 	}
 	std::cout << std::endl;
