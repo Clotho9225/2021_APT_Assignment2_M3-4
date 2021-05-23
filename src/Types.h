@@ -2,7 +2,6 @@
 #define COSC_ASSIGN_TWO_TYPES
 
 #include <math.h>
-
 #define BOARD_SIZE 26
 #define MAX_POS_SIZE 26*26
 #define NODE_LIST_MAX_SIZE 6

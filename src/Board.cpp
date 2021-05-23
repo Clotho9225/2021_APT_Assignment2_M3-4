@@ -105,8 +105,43 @@ void Board::printBoard()
             {
                 Colour colour = this->position[row][col]->tile->colour;
                 Shape shape = this->position[row][col]->tile->shape;
-                std::cout << colour;
-                std::cout << shape;
+                if (colour == 'R')
+                {
+                    //std::cout << colour;
+                    printf("\033[31m%c%d", colour, shape);
+                    std::cout << "\033[0m";	
+                }
+                else if (colour == 'O')
+                {
+                    //std::cout << colour;
+                    printf("\033[91m%c%d", colour, shape);
+                    std::cout << "\033[0m";	
+                }
+                else if (colour == 'Y')
+                {
+                    //std::cout << colour;
+                    printf("\033[33m%c%d", colour, shape);
+                    std::cout << "\033[0m";	
+                }
+                else if (colour == 'G')
+                {
+                    //std::cout << colour;
+                    printf("\033[32m%c%d", colour, shape);
+                    std::cout << "\033[0m";	
+                }
+                else if (colour == 'B')
+                {
+                    //std::cout << colour;
+                    printf("\033[34m%c%d", colour, shape);
+                    std::cout << "\033[0m";	
+                }
+                else if (colour == 'P')
+                {
+                    //std::cout << colour;
+                    printf("\033[35m%c%d", colour, shape);
+                    std::cout << "\033[0m";	
+                }
+                //std::cout << shape;
                 std::cout << "|";
             }
         }

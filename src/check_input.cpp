@@ -29,14 +29,17 @@ bool isValidPlaceTile(std::string input, Player *player)
     // check the length of the input string
     if ((input.size() != 14 && input.size() != 15) ||
         input.compare(0, 6, "place ") != 0 ||
-        input.compare(8, 4, " at ") != 0 ||
-        input.compare(0, 4, "help") != 0)
+        input.compare(8, 4, " at ") != 0)
     {
         if (input.compare(0, 7, "replace") == 0)
         {
             return false;
         }
         else if (input.compare(0, 4, "save") == 0)
+        {
+            return false;
+        }
+        else if (input.compare(0, 4, "help") == 0)
         {
             return false;
         }
@@ -52,7 +55,6 @@ bool isValidPlaceTile(std::string input, Player *player)
             std::cout << "<Column (should be number, 0 to 25)>" << std::endl;
             return false;
         }
-        
         
     }
 
@@ -97,7 +99,7 @@ bool isValidReplace(std::string input, Player *player)
 {
 
     // check the length of the input string
-    if ((input.size() != 10 && input.size() != 11) || 
+     if ((input.size() != 10 && input.size() != 11) || 
         (input.compare(0, 8, "replace ") != 0))
     {
         if ((input.compare(0, 5, "place") == 0))

@@ -4,6 +4,9 @@
 #include <vector>
 #include "Types.h"
 #include "Node.h"
+
+#include <iostream>
+
 using std::vector;
 
 // Define a Colour type
