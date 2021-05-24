@@ -238,11 +238,11 @@ void LinkedList::iniTileBag()
    }
 
    // add each kind of tile twice
-   for (unsigned int i = 0; i < 6; i++)
+   for (unsigned int iIndex = 0; iIndex < 6; iIndex++)
    {
-      for (unsigned int j = 0; j < 6; j++)
+      for (unsigned int jIndex = 0; jIndex < 6; jIndex++)
       {
-         Tile *tempTile = new Tile(colours[i], shapes[j]);
+         Tile *tempTile = new Tile(colours[iIndex], shapes[jIndex]);
          Node *tempNode = new Node();
          tempNode->setTile(tempTile);
 
@@ -315,11 +315,11 @@ void LinkedList::orderlyTileBag()
    }
 
    // add each kind of tile twice
-   for (unsigned int i = 0; i < 6; i++)
+   for (unsigned int iIndex = 0; iIndex < 6; iIndex++)
    {
-      for (unsigned int j = 0; j < 6; j++)
+      for (unsigned int jIndex = 0; jIndex < 6; jIndex++)
       {
-         Tile *tempTile = new Tile(colours[i], shapes[j]);
+         Tile *tempTile = new Tile(colours[iIndex], shapes[jIndex]);
          Node *tempNode = new Node();
          tempNode->setTile(tempTile);
 
